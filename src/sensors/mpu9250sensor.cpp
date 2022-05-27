@@ -32,7 +32,7 @@
     #include "dmpmag.h"
 #else
 #define ACC_SCALE 16384 // For 2G
-constexpr float gscale = (250. / 32768.0) * (PI / 180.0); //gyro default 250 LSB per d/s -> rad/s
+constexpr float gscale = 250. / 32768.0; //gyro default 250 LSB per d/s
 #endif
 
 #define MAG_CORR_RATIO 0.02
@@ -133,7 +133,7 @@ void MPU9250Sensor::motionLoop() {
 
 #if defined(MPU9250_USE_MAHONY) && MPU9250_USE_MAHONY
     unsigned long now = micros();
-    unsigned long deltat = now - last; //seconds since last update
+    float deltat = (now - last) /1000000.0f; //seconds since last update
 
     this->last = now;
 
